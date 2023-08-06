@@ -4,7 +4,7 @@ const username = process.env.name
 const password = process.env.password
 
 const sequelize = new Sequelize('superminddb', username, password, {
-  host: 'database-1.cml5tjlvnix4.ap-south-1.rds.amazonaws.com',
+  host: 'database-2.cml5tjlvnix4.ap-south-1.rds.amazonaws.com',
   dialect: 'mysql'
 });
 
