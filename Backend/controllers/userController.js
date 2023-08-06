@@ -5,20 +5,24 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   const { email, password, username, contact } = req.body;
   try {
-    const existingUser = await User.findOne({ where: { email } });
+    const existingUser = await User.findOne({ where: { email } }).catch(
+      (err) => {
+        console.log("Error: ", err);
+      }
+    );
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+      return res.status(400).json({ error: "User already exists"});
     }
 
     const hashedpassword = await bcrypt.hash(password, 5);
 
-    const newUser = await User.create({
+    const newUser = await new User({
       username,
       email,
       password: hashedpassword,
       contact,
     });
-
+    newUser.save();
     res.status(201).json({ msg: "Registeration succesfull", data: newUser });
   } catch (error) {
     console.error("Error creating user: ", err);
@@ -29,8 +33,11 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
+    console.log("hello");
     // Check if the email exists in the database
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } }).catch((err) => {
+      console.log("Error: ", err);
+    });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });

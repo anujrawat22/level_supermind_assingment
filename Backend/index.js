@@ -8,6 +8,11 @@ app.use(express.json());
 
 app.use("/api/user", userRouter);
 
+app.get("/",(req,res)=>{
+  res.send("<h1>Hello</h1>")
+})
+
+sequelize.sync()
 
 app.listen(port, async () => {
   try {
