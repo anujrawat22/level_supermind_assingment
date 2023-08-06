@@ -22,6 +22,10 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  contact: {
+    type: DataTypes.STRING(10),
+    allowNull: true,
+  },
 });
 
 module.exports = { User };
