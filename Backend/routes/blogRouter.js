@@ -15,6 +15,7 @@ const blogRouter = Router();
 blogRouter.get("/all", allblogs);
 blogRouter.get("/:id", getblogbyid);
 blogRouter.post("/create", authenticate, authorize(["author"]), createBlogPost);
+
 blogRouter.put(
   "/update/:id",
   authenticate,

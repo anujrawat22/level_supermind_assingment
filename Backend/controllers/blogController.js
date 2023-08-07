@@ -28,8 +28,8 @@ exports.createBlogPost = async (req, res) => {
   const { title, content } = req.body;
   const authorId = req.user.id;
   try {
-    const newBlogPost = await new BlogPost({ title, content, authorId });
-    newBlogPost.save();
+    const newBlogPost = await BlogPost.create({ title, content, authorId });
+
     res.status(201).json({ msg: "new Blog created", data: newBlogPost });
   } catch (error) {
     console.error("Error creating blog post:", error);

@@ -1,6 +1,7 @@
 const authorize = (roles) => {
   return (req, res, next) => {
     const role = req.user.role;
+    console.log(role,roles)
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized: No token provided" });
     }

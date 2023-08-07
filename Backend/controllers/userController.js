@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  const { email, password, username, contact } = req.body;
+  const { email, password, username, contact ,role} = req.body;
   try {
+    console.log("Role:",role)
     const existingUser = await User.findOne({ where: { email } }).catch(
       (err) => {
         console.log("Error: ", err);
@@ -16,13 +17,14 @@ exports.register = async (req, res) => {
 
     const hashedpassword = await bcrypt.hash(password, 5);
 
-    const newUser = await new User({
+    const newUser = await User.create({
       username,
       email,
       password: hashedpassword,
       contact,
+      role : role
     });
-    newUser.save();
+
     res.status(201).json({ msg: "Registeration succesfull", data: newUser });
   } catch (error) {
     console.error("Error creating user: ", err);
@@ -33,7 +35,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    console.log("hello");
+   
     // Check if the email exists in the database
     const user = await User.findOne({ where: { email } }).catch((err) => {
       console.log("Error: ", err);
@@ -61,3 +63,14 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+exports.getUser = async(req,res)=>{
+  const {id} = req.params
+  try {
+    const users = await User.findAll();
+    res.json({data :users});
+  } catch (error) {
+    res.json({error})
+  }
+}
