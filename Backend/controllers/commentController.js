@@ -1,4 +1,6 @@
 const { BlogPost } = require("../models/blogModel");
+const { Comment } = require("../models/commentModel");
+const { User } = require("../models/userModel");
 
 exports.createComment = async (req, res) => {
   const { content, blogId } = req.body;
@@ -8,7 +10,12 @@ exports.createComment = async (req, res) => {
     if (!blogPost) {
       return res.status(404).json({ error: "Blog post not found" });
     }
-    const newComment = await Comment.create({ content, userId, blogId });
+    const newComment = await Comment.create({
+      content,
+      userId,
+      created_at: new Date(),
+      blogpostId: blogId,
+    });
     res.status(201).json({ msg: "Comment created", data: newComment });
   } catch (error) {
     console.error("Error creating comment:", error);

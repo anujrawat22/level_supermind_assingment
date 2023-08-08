@@ -65,12 +65,3 @@ exports.login = async (req, res) => {
 };
 
 
-exports.getUser = async(req,res)=>{
-  const {id} = req.params
-  try {
-    const users = await User.findAll();
-    res.json({data :users});
-  } catch (error) {
-    res.json({error})
-  }
-}

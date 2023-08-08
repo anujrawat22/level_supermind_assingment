@@ -28,7 +28,7 @@ exports.createBlogPost = async (req, res) => {
   const { title, content } = req.body;
   const authorId = req.user.id;
   try {
-    const newBlogPost = await BlogPost.create({ title, content, authorId });
+    const newBlogPost = await BlogPost.create({ title, content, authorId ,userId : authorId});
 
     res.status(201).json({ msg: "new Blog created", data: newBlogPost });
   } catch (error) {
@@ -72,7 +72,7 @@ exports.deleteBlogPost = async (req, res) => {
     if (blogPost.authorId !== authorId) {
       return res
         .status(403)
-        .json({ error: "Forbidden: You are not the author of this blog post" });
+        .json({ error: "Forbidden - You are not the author of this blog post" });
     }
     await blogPost.destroy();
     res.status(204).json({ msg: "Blog post deleted successfully" });

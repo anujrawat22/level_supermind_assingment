@@ -13,16 +13,10 @@ const Comment = sequelize.define("Comment", {
   content: {
     type: DataTypes.TEXT,
     allowNull: false,
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
+  }
 });
 
 Comment.belongsTo(User, { foreignKey: "userId", allowNull: false });
 Comment.belongsTo(BlogPost, { foreignKey: "blogpostId", allowNull: false });
-BlogPost.hasMany(Comment);
-User.hasMany(Comment);
 
 module.exports = { Comment };
